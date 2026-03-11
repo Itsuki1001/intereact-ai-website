@@ -11,7 +11,7 @@ const conversations: ChatMessage[] = [
   { from: "guest", text: "Show me room photos" },
   { from: "ai", text: "📸 Here are our room photos! [3 images attached]\n\nWould you like to see more or check availability?" },
   { from: "guest", text: "Where is the resort located?" },
-  { from: "ai", text: "📍 We're located in Munnar, Kerala. Here's our Google Maps location: [Location shared]\n\n~45 min from Cochin International Airport." },
+  { from: "ai", text: "📍 We're located in Munnar, Kerala. Here's our Google Maps location: [Location shared]\n\n~3hrs from Cochin International Airport." },
   { from: "guest", text: "Can I book a room for tomorrow?" },
   { from: "ai", text: "Let me check availability for tomorrow... ✅ We have Deluxe Rooms available! For how many guests? I'll send you the booking link." },
 ];
