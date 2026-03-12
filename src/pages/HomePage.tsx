@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Section from "@/components/Section";
 import ChatDemo from "@/components/ChatDemo";
 import { motion } from "framer-motion";
+import { siteConfig } from "@/lib/site-config";
 import {
   MessageSquare, Clock, Brain, Image, MapPin, CalendarCheck,
   Zap, Users, ShieldCheck, TrendingUp, BotMessageSquare, Headphones
@@ -54,10 +55,10 @@ const HomePage = () => (
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="glow" size="lg" asChild>
-                <a href="https://wa.me/919061293580" target="_blank" rel="noopener noreferrer">Get Started</a>
+                <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">Get Started</a>
               </Button>
               <Button variant="outline-glow" size="lg" asChild>
-                <a href="tel:+919061293580">Contact Us</a>
+                <a href={`tel:${siteConfig.contactPhone}`}>Contact Us</a>
               </Button>
             </div>
           </motion.div>
@@ -173,10 +174,10 @@ const HomePage = () => (
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button variant="glow" size="lg" asChild>
-              <a href="https://wa.me/919061293580" target="_blank" rel="noopener noreferrer">Get Started on WhatsApp</a>
+              <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">Get Started on WhatsApp</a>
             </Button>
             <Button variant="outline-glow" size="lg" asChild>
-              <a href="tel:+919061293580">Call Us</a>
+              <a href={`tel:${siteConfig.contactPhone}`}>Call Us</a>
             </Button>
           </div>
         </div>

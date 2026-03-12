@@ -6,39 +6,35 @@
 
 @layer base {
   :root {
-    --background: 30 25% 96%;
-    --foreground: 24 10% 15%;
+    --background: 222 47% 6%;
+    --foreground: 210 40% 95%;
 
-    --card: 30 20% 99%;
-    --card-foreground: 24 10% 15%;
+    --card: 222 40% 9%;
+    --card-foreground: 210 40% 95%;
 
-    --popover: 30 20% 99%;
-    --popover-foreground: 24 10% 15%;
+    --popover: 222 40% 9%;
+    --popover-foreground: 210 40% 95%;
 
-    --primary: 24 60% 35%;
-    --primary-foreground: 40 30% 96%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 222 47% 6%;
 
-    --secondary: 30 15% 90%;
-    --secondary-foreground: 24 15% 30%;
+    --secondary: 220 30% 15%;
+    --secondary-foreground: 210 40% 85%;
 
-    --muted: 30 12% 92%;
-    --muted-foreground: 24 8% 50%;
+    --muted: 220 30% 12%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 18 45% 45%;
-    --accent-foreground: 40 30% 96%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 222 47% 6%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 15% 85%;
-    --input: 30 15% 85%;
-    --ring: 24 60% 35%;
+    --border: 220 30% 18%;
+    --input: 220 30% 18%;
+    --ring: 210 100% 60%;
 
     --radius: 0.75rem;
-
-    --glow: 24 60% 35%;
-    --glow-purple: 18 45% 45%;
-    --surface-glass: 30 20% 95%;
   }
 }
 
@@ -52,28 +48,114 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
-    background-image: 
-      radial-gradient(ellipse 80% 60% at 10% 0%, hsl(24 60% 35% / 0.06) 0%, transparent 100%),
-      radial-gradient(ellipse 60% 50% at 90% 20%, hsl(18 45% 45% / 0.04) 0%, transparent 100%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, hsl(30 25% 80% / 0.08) 0%, transparent 100%);
-    background-attachment: fixed;
+    background-color: hsl(222, 47%, 6%);
+    min-height: 100vh;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
   }
 }
 
+/* ── Aurora orbs ─────────────────────────────────────────── */
+#aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#aurora-bg .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0;
+  animation: orb-drift linear infinite;
+}
+
+#aurora-bg .orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, hsl(210 100% 55% / 0.18) 0%, transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation-duration: 20s;
+  animation-delay: 0s;
+}
+#aurora-bg .orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, hsl(195 100% 50% / 0.14) 0%, transparent 70%);
+  top: 40%;
+  right: -8%;
+  animation-duration: 25s;
+  animation-delay: -8s;
+}
+#aurora-bg .orb-3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, hsl(250 80% 65% / 0.12) 0%, transparent 70%);
+  bottom: -10%;
+  left: 30%;
+  animation-duration: 22s;
+  animation-delay: -14s;
+}
+#aurora-bg .orb-4 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, hsl(210 100% 60% / 0.10) 0%, transparent 70%);
+  top: 20%;
+  left: 50%;
+  animation-duration: 18s;
+  animation-delay: -5s;
+}
+
+@keyframes orb-drift {
+  0%   { opacity: 0;    transform: translate(0px,   0px)   scale(1);    }
+  10%  { opacity: 1; }
+  30%  { transform: translate(40px,  -30px)  scale(1.08); }
+  50%  { transform: translate(-20px,  50px)  scale(0.95); }
+  70%  { transform: translate(30px,   20px)  scale(1.05); }
+  90%  { opacity: 1; }
+  100% { opacity: 0;    transform: translate(0px,   0px)   scale(1);    }
+}
+
+/* ── Subtle grid overlay ─────────────────────────────────── */
+#grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(hsl(210 100% 60% / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(210 100% 60% / 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* Ensure page content sits above the fixed bg layers */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
 @layer components {
   .glass-card {
-    @apply rounded-xl border border-border/50 bg-card/80 backdrop-blur-xl;
-    box-shadow: 0 4px 24px -8px hsl(24 60% 35% / 0.06);
+    @apply rounded-xl border border-border/50 bg-card/60 backdrop-blur-xl;
+    box-shadow:
+      0 4px 24px -8px hsl(210 100% 60% / 0.08),
+      inset 0 1px 0 hsl(210 100% 80% / 0.05);
   }
   .glass-card-hover {
     @apply glass-card transition-all duration-300;
   }
   .glass-card-hover:hover {
     border-color: hsl(var(--primary) / 0.3);
-    box-shadow: 0 8px 32px -8px hsl(24 60% 35% / 0.1);
+    box-shadow:
+      0 8px 32px -8px hsl(210 100% 60% / 0.18),
+      inset 0 1px 0 hsl(210 100% 80% / 0.08);
     transform: translateY(-2px);
   }
   .gradient-text {
@@ -89,7 +171,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.3));
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--accent) / 0.4));
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
     -webkit-mask-composite: xor;
@@ -97,23 +179,29 @@
   }
   .hero-glow {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
     border-radius: 50%;
-    background: radial-gradient(circle, hsl(24 60% 35% / 0.08), transparent 70%);
-    filter: blur(80px);
+    background: radial-gradient(circle, hsl(210 100% 60% / 0.1), transparent 70%);
+    filter: blur(100px);
     pointer-events: none;
+    animation: hero-pulse 6s ease-in-out infinite;
   }
   .section-padding {
     @apply px-4 sm:px-6 lg:px-8 py-20 lg:py-28;
   }
   .btn-glow {
     @apply relative overflow-hidden;
-    box-shadow: 0 4px 16px -4px hsl(24 60% 35% / 0.2);
+    box-shadow: 0 4px 16px -4px hsl(210 100% 60% / 0.3);
   }
   .btn-glow:hover {
-    box-shadow: 0 6px 24px -4px hsl(24 60% 35% / 0.3);
+    box-shadow: 0 6px 28px -4px hsl(210 100% 60% / 0.45);
   }
+}
+
+@keyframes hero-pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
 }
 
 @layer utilities {

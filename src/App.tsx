@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AuroraBg from "@/components/AuroraBg";
 import HomePage from "./pages/HomePage";
 import UseCasesPage from "./pages/UseCasesPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
@@ -20,16 +21,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/use-cases" element={<UseCasesPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
+        {/* Aurora lives outside Routes so it persists across all pages */}
+        <AuroraBg />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/use-cases" element={<UseCasesPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
