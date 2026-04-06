@@ -55,7 +55,7 @@ const VoiceAssistant = () => {
             </div>
             <div>
               <div className="text-sm font-semibold text-white">Voice Assistant</div>
-              <div className="text-xs" style={{ color: "rgba(147,197,253,0.7)" }}>Pete's Inn Concierge</div>
+              <div className="text-xs" style={{ color: "rgba(147,197,253,0.7)" }}>Resort Concierge</div>
             </div>
             <div className="ml-auto flex items-center gap-1.5">
               <span
