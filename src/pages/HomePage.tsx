@@ -7,6 +7,7 @@ import {
   MessageSquare, Clock, Brain, Image, MapPin, CalendarCheck,
   Zap, Users, ShieldCheck, TrendingUp, BotMessageSquare, Headphones
 } from "lucide-react";
+import VoiceAssistant from "@/components/Voiceassistant";
 
 const problems = [
   "Too many repetitive customer questions",
@@ -39,32 +40,70 @@ const HomePage = () => (
     {/* Hero */}
     <section className="relative overflow-hidden section-padding min-h-[90vh] flex items-center">
       <div className="hero-glow top-1/4 left-1/4 -translate-x-1/2" />
-      <div className="hero-glow top-1/3 right-0 translate-x-1/4" style={{ background: "radial-gradient(circle, hsl(265 80% 60% / 0.1), transparent 70%)" }} />
-      <div className="mx-auto max-w-7xl relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+      <div
+        className="hero-glow top-1/3 right-0 translate-x-1/4"
+        style={{ background: "radial-gradient(circle, hsl(265 80% 60% / 0.1), transparent 70%)" }}
+      />
+
+      <div className="mx-auto max-w-7xl w-full relative z-10">
+        {/* ── HERO GRID ──────────────────────────────────────────────
+            Mobile  : single column, text → cards stacked vertically
+            Desktop : 3-col grid, text left (1 col), cards right (2 col)
+        ────────────────────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12 items-center">
+
+          {/* Left — text */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="w-full"
+          >
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs text-primary mb-6">
               <Zap size={14} /> AI Automation for Modern Businesses
             </div>
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground mb-6">
+
+            {/* FIX 1: w-full prevents heading from clipping on mobile */}
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground mb-6 w-full">
               Automate Your Business Conversations{" "}
               <span className="gradient-text">with AI</span>
             </h1>
+
             <p className="text-lg text-muted-foreground max-w-lg mb-8">
-              Interact AI provides intelligent WhatsApp assistants that automate customer interactions, bookings, and guest support for modern businesses.
+              Interact AI provides intelligent WhatsApp assistants that automate customer
+              interactions, bookings, and guest support for modern businesses.
             </p>
+
             <div className="flex flex-wrap gap-4">
               <Button variant="glow" size="lg" asChild>
-                <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">Get Started</a>
+                <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                </a>
               </Button>
               <Button variant="outline-glow" size="lg" asChild>
                 <a href={`tel:${siteConfig.contactPhone}`}>Contact Us</a>
               </Button>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }}>
-            <ChatDemo />
+
+          {/* Right — Chat + Voice cards
+              FIX 2: flex-col on mobile, flex-row on lg+
+              FIX 3: min-w-0 on each child so they don't overflow
+          */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="lg:col-span-2 flex flex-col lg:flex-row gap-4 items-stretch w-full"
+          >
+            <div className="flex-1 min-w-0">
+              <ChatDemo />
+            </div>
+            <div className="flex-1 min-w-0">
+              <VoiceAssistant />
+            </div>
           </motion.div>
+
         </div>
       </div>
     </section>
@@ -75,7 +114,9 @@ const HomePage = () => (
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
           The Problem with <span className="gradient-text">Manual Support</span>
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">Your staff shouldn't be answering the same questions hundreds of times.</p>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Your staff shouldn't be answering the same questions hundreds of times.
+        </p>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
         {problems.map((p, i) => (
@@ -99,7 +140,9 @@ const HomePage = () => (
           className="glass-card gradient-border p-5 flex items-start gap-3"
         >
           <div className="mt-1 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-          <p className="text-sm text-foreground font-medium">Interact AI solves all of this — automatically.</p>
+          <p className="text-sm text-foreground font-medium">
+            Interact AI solves all of this — automatically.
+          </p>
         </motion.div>
       </div>
     </Section>
@@ -111,7 +154,8 @@ const HomePage = () => (
           Your <span className="gradient-text">24/7 AI Front Desk</span>
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          An AI assistant on WhatsApp that handles guest conversations automatically. No app downloads, no complicated setup.
+          An AI assistant on WhatsApp that handles guest conversations automatically.
+          No app downloads, no complicated setup.
         </p>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -174,7 +218,9 @@ const HomePage = () => (
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button variant="glow" size="lg" asChild>
-              <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">Get Started on WhatsApp</a>
+              <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+                Get Started on WhatsApp
+              </a>
             </Button>
             <Button variant="outline-glow" size="lg" asChild>
               <a href={`tel:${siteConfig.contactPhone}`}>Call Us</a>
