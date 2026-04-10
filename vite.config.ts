@@ -13,9 +13,10 @@ export default defineConfig(({ mode }) => ({
     },
     allowedHosts: [
       "8998-115-247-200-214.ngrok-free.app",
-      "0058-117-193-165-100.ngrok-free.app",
-      "*.ngrok-free.app",
-      "*.ngrok.io"
+      "53f9-117-193-165-100.ngrok-free.app",
+      
+      ".ngrok-free.app",
+      ".ngrok.io"
     ]
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),

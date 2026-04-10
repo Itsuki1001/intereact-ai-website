@@ -1,14 +1,83 @@
 import { Button } from "@/components/ui/button";
 import Section from "@/components/Section";
-import ChatDemo from "@/components/ChatDemo";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
+import { useEffect, useState } from "react";
+
 import {
   MessageSquare, Clock, Brain, Image, MapPin, CalendarCheck,
   Zap, Users, ShieldCheck, TrendingUp, BotMessageSquare, Headphones
 } from "lucide-react";
-import VoiceAssistant from "@/components/Voiceassistant";
+import ProblemSection from "@/components/ProblemSection";
+/* ─── Equalizer Bar Animation (Vapi-style) ─────────────────────────── */
+const WORDS_ROW1 = [
+  "Every Message Is an Opportunity",
+  "Every Delay Is a Lost Customer",
+  "Every Response Drives Revenue"
+];
 
+const WORDS_ROW2 = [
+  "Respond Faster",
+  "Convert Better",
+  "Retain Longer",
+  "Grow Smarter"
+];
+
+function MarqueeRow({
+  words,
+  sep = "✦",
+  reverse = false,
+  duration = 28,
+}: {
+  words: string[];
+  sep?: string;
+  reverse?: boolean;
+  duration?: number;
+}) {
+  const doubled = [...words, ...words];
+  return (
+    <div style={{ overflow: "hidden", width: "100%" }}>
+      <motion.div
+        style={{
+          display: "flex",
+          whiteSpace: "nowrap",
+          width: "max-content", // ← key fix: makes % translate work correctly
+        }}
+        animate={{ x: reverse ? ["-50%", "0%"] : ["0%", "-50%"] }}
+        transition={{ duration, repeat: Infinity, ease: "linear" }}
+      >
+        {doubled.map((word, i) => (
+          <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
+            <span
+              style={{
+                fontFamily: "'Cormorant Garamond', 'Cormorant', Georgia, serif",
+                fontSize: "clamp(26px, 3.8vw, 52px)",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: i % 2 === 0 ? "#ede9e1" : "rgba(237,233,225,0.22)",
+                padding: "0 20px",
+                fontWeight: 300, // ← thin weight matches the image
+              }}
+            >
+              {word}
+            </span>
+            <span
+              style={{
+                color: "rgba(237,233,225,0.2)",
+                fontSize: "10px",
+                letterSpacing: 0,
+              }}
+            >
+              {sep}
+            </span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ─── Data ──────────────────────────────────────────────────────────── */
 const problems = [
   "Too many repetitive customer questions",
   "Staff wasting hours replying to WhatsApp messages",
@@ -35,119 +104,108 @@ const benefits = [
   { icon: ShieldCheck, title: "Reliable & Accurate", desc: "Answers from your verified knowledge base." },
 ];
 
+/* ─── Page ──────────────────────────────────────────────────────────── */
 const HomePage = () => (
   <div className="pt-16">
-    {/* Hero */}
-    <section className="relative overflow-hidden section-padding min-h-[90vh] flex items-center">
-      <div className="hero-glow top-1/4 left-1/4 -translate-x-1/2" />
-      <div
-        className="hero-glow top-1/3 right-0 translate-x-1/4"
-        style={{ background: "radial-gradient(circle, hsl(265 80% 60% / 0.1), transparent 70%)" }}
-      />
 
-      <div className="mx-auto max-w-7xl w-full relative z-10">
-        {/* ── HERO GRID ──────────────────────────────────────────────
-            Mobile  : single column, text → cards stacked vertically
-            Desktop : 3-col grid, text left (1 col), cards right (2 col)
-        ────────────────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12 items-center">
+    {/* ── Hero ─────────────────────────────────────────────────────── */}
+<section
+  className="relative overflow-hidden flex flex-col items-center justify-start text-center pt-16 sm:pt-20 min-h-[78vh] sm:min-h-[85vh] lg:min-h-[92vh]"
+  style={{
+  
+    backgroundColor: "#0a0a0a",
+    backgroundImage: `
+      radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)
+    `,
+    backgroundSize: "45px 45px",
+  }}
+>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
-          {/* Left — text */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="w-full"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs text-primary mb-6">
-              <Zap size={14} /> AI Automation for Modern Businesses
-            </div>
+  {/* CONTENT */}
+  <div
+    className="relative z-10 flex flex-col items-center px-6 pb-[120px]"
+    
+  >
+    <motion.h1
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75, ease: "easeOut" }}
+      style={{
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 400,
+        fontSize: "clamp(2.6rem, 7vw, 5.5rem)",
+        lineHeight: 1.1,
+        color: "#ffffff",
+        letterSpacing: "-0.02em",
+        maxWidth: 760,
+        marginBottom: "2.5rem",
+      }}
+    >
+      Automate Your Business<br />with AI
+    </motion.h1>
 
-            {/* FIX 1: w-full prevents heading from clipping on mobile */}
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-foreground mb-6 w-full">
-              Automate Your Business Conversations{" "}
-              <span className="gradient-text">with AI</span>
-            </h1>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75, delay: 0.18 }}
+      className="flex flex-wrap justify-center gap-4"
+    >
+      <a
+        href={siteConfig.contactWhatsAppUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          paddingInline: "2rem",
+          paddingBlock: "0.85rem",
+          borderRadius: 9999,
+          background: "#4ade80",
+          color: "#0a0a0a",
+          fontWeight: 600,
+          fontSize: "0.85rem",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+      >
+        Get Started <span style={{ fontSize: "0.75rem" }}>›</span>
+      </a>
 
-            <p className="text-lg text-muted-foreground max-w-lg mb-8">
-              Interact AI provides intelligent WhatsApp assistants that automate customer
-              interactions, bookings, and guest support for modern businesses.
-            </p>
+      <a
+        href={`tel:${siteConfig.contactPhone}`}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          paddingInline: "2rem",
+          paddingBlock: "0.85rem",
+          borderRadius: 9999,
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.15)",
+          color: "#ffffff",
+          fontWeight: 500,
+          fontSize: "0.85rem",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+      >
+        Contact Us
+      </a>
+    </motion.div>
+  </div>
 
-            <div className="flex flex-wrap gap-4">
-              <Button variant="glow" size="lg" asChild>
-                <a href={siteConfig.contactWhatsAppUrl} target="_blank" rel="noopener noreferrer">
-                  Get Started
-                </a>
-              </Button>
-              <Button variant="outline-glow" size="lg" asChild>
-                <a href={`tel:${siteConfig.contactPhone}`}>Contact Us</a>
-              </Button>
-            </div>
-          </motion.div>
+{/* Marquee — absolute bottom */}
+<div className="absolute bottom-0 left-0 right-0 flex flex-col pb-2 pointer-events-none" style={{ gap: '1px' }}>  <MarqueeRow words={WORDS_ROW1} sep="✦" duration={28} />
+  <MarqueeRow words={WORDS_ROW2} sep="✦" reverse duration={36} />
+</div>
+</section>
+    {/* ── Problem ──────────────────────────────────────────────────── */}
+    <ProblemSection />
 
-          {/* Right — Chat + Voice cards
-              FIX 2: flex-col on mobile, flex-row on lg+
-              FIX 3: min-w-0 on each child so they don't overflow
-          */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-2 flex flex-col lg:flex-row gap-4 items-stretch w-full"
-          >
-            <div className="flex-1 min-w-0">
-              <ChatDemo />
-            </div>
-            <div className="flex-1 min-w-0">
-              <VoiceAssistant />
-            </div>
-          </motion.div>
-
-        </div>
-      </div>
-    </section>
-
-    {/* Problem */}
-    <Section>
-      <div className="text-center mb-12">
-        <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-          The Problem with <span className="gradient-text">Manual Support</span>
-        </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Your staff shouldn't be answering the same questions hundreds of times.
-        </p>
-      </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-        {problems.map((p, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="glass-card p-5 flex items-start gap-3"
-          >
-            <div className="mt-1 h-2 w-2 rounded-full bg-destructive flex-shrink-0" />
-            <p className="text-sm text-muted-foreground">{p}</p>
-          </motion.div>
-        ))}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="glass-card gradient-border p-5 flex items-start gap-3"
-        >
-          <div className="mt-1 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-          <p className="text-sm text-foreground font-medium">
-            Interact AI solves all of this — automatically.
-          </p>
-        </motion.div>
-      </div>
-    </Section>
-
-    {/* Solution */}
+    {/* ── Solution ─────────────────────────────────────────────────── */}
     <Section>
       <div className="text-center mb-12">
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
@@ -178,7 +236,7 @@ const HomePage = () => (
       </div>
     </Section>
 
-    {/* Why Interact AI */}
+    {/* ── Why Interact AI ──────────────────────────────────────────── */}
     <Section>
       <div className="text-center mb-12">
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
@@ -205,10 +263,9 @@ const HomePage = () => (
       </div>
     </Section>
 
-    {/* CTA */}
+    {/* ── CTA ──────────────────────────────────────────────────────── */}
     <Section>
       <div className="glass-card gradient-border p-10 sm:p-14 text-center relative overflow-hidden">
-        <div className="hero-glow top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px]" />
         <div className="relative z-10">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Ready to Automate Your Business?
@@ -229,6 +286,7 @@ const HomePage = () => (
         </div>
       </div>
     </Section>
+
   </div>
 );
 
